@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:prova_flutter/services/auth_service.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,6 +15,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String usuario = '';
   String senha = '';
+  AuthService authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,20 +53,21 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: TextFormField(
                           onSaved: (newValue) {
-                            usuario = newValue ?? '';
+                            if (newValue != null) {
+                              usuario = newValue;
+                            }
                           },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Preencha o usuário';
+                            } else if (value.endsWith(' ')) {
+                              return 'Não pode terminar com espaço';
                             } else {
                               return null;
                             }
                           },
                           maxLength: 20,
                           decoration: InputDecoration(
-                            // labelText: 'Usuário',
-                            // labelStyle:
-                            //     const TextStyle(color: Colors.black54),
                             hintText: 'Digite seu usuário',
                             fillColor: Colors.white,
                             filled: true,
@@ -75,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 5),
                       const Text(
                         'Senha',
                         style: TextStyle(color: Colors.white),
@@ -84,10 +90,8 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: TextFormField(
                           maxLength: 20,
+                          obscureText: true,
                           decoration: InputDecoration(
-                            // labelText: 'Senha',
-                            // labelStyle:
-                            //     const TextStyle(color: Colors.black54),
                             hintText: 'Digite sua senha',
                             fillColor: Colors.white,
                             filled: true,
@@ -102,6 +106,8 @@ class _LoginPageState extends State<LoginPage> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Por favor, insira a senha';
+                            } else if (value.endsWith(' ')) {
+                              return 'Não pode terminar com espaço';
                             } else if (value.length < 2) {
                               return 'A senha não pode ter menos que dois caracteres';
                             } else if (!RegExp(r'^[a-zA-Z0-9]+$')
@@ -110,17 +116,59 @@ class _LoginPageState extends State<LoginPage> {
                             }
                             return null;
                           },
+                          onSaved: (newValue) {
+                            if (newValue != null) {
+                              senha = newValue;
+                            }
+                          },
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.center,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {}
-                          },
-                          child: const Text('Entrar'),
-                        ),
+                      Observer(
+                        builder: (context) {
+                          return SizedBox(
+                            child: (authService.isLoading)
+                                ? const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    child: LinearProgressIndicator(
+                                      backgroundColor: Colors.transparent,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const SizedBox(),
+                          );
+                        },
+                      ),
+                      Observer(
+                        builder: (context) {
+                          return Align(
+                            alignment: Alignment.center,
+                            child: ElevatedButton(
+                              onPressed: authService.isLoading
+                                  ? null
+                                  : () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        bool loginSuccess =
+                                            await authService.login(
+                                                'usuarioteste', 'senhateste');
+
+                                        if (loginSuccess) {
+                                          if (kDebugMode) {
+                                            print('Login bem-sucedido!');
+                                          }
+                                        } else {
+                                          if (kDebugMode) {
+                                            print(
+                                              'Credenciais inválidas. Tente novamente.',
+                                            );
+                                          }
+                                        }
+                                      }
+                                    },
+                              child: const Text('Entrar'),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 40),
                     ],
