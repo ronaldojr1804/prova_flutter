@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prova_flutter/views/cards/cards_view_page.dart';
 import 'package:prova_flutter/views/login/login_page.dart';
 
 void main() {
@@ -11,12 +12,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Prova Flutter',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginPage(),
+        '/cards': (context) => const CardViewPage(),
+      },
+      // home: const LoginPage(),
     );
   }
 }

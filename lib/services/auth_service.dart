@@ -12,28 +12,18 @@ class AuthService {
     revertValueLoading = Action(_revertValueLoading);
   }
 
-  // ignore: prefer_final_fields
-  Observable<bool> _isLoading = Observable<bool>(false);
+  final Observable<bool> _isLoading = Observable<bool>(false);
   bool get isLoading => _isLoading.value;
 
   void _setLoading() {
-    if (kDebugMode) {
-      print('_setLoading');
-    }
     _isLoading.value = true;
   }
 
   void _setNotLoading() {
-    if (kDebugMode) {
-      print('_setNotLoading');
-    }
     _isLoading.value = false;
   }
 
   void _revertValueLoading() {
-    if (kDebugMode) {
-      print('_revertValueLoading');
-    }
     _isLoading.value = !_isLoading.value;
   }
 
@@ -43,7 +33,7 @@ class AuthService {
       revertValueLoading.call();
     });
 
-    if (username == 'usuarioteste' && password == 'senhateste') {
+    if (username.isNotEmpty && password.isNotEmpty) {
       return true;
     } else {
       return false;
