@@ -1,16 +1,19 @@
-# prova_flutter
+# Projeto de Prova Flutter para a Target Sistemas
 
-A new Flutter project.
+Este é um projeto de exemplo criado como parte de uma prova para a empresa Target Sistemas. O projeto foi desenvolvido em Flutter, uma estrutura de desenvolvimento de aplicativos multiplataforma.
 
-## Getting Started
+## Visão Geral do Projeto
 
-This project is a starting point for a Flutter application.
+O objetivo deste projeto é demonstrar minhas habilidades e conhecimentos em Flutter e programação.
 
-A few resources to get you started if this is your first Flutter project:
+### Recursos Principais
+- Shared_preferences
+- mobX
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Capturas de Tela
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Captura de Tela - Login 1](screenshots/login_1.png)
+![Captura de Tela - Login 2](screenshots/login_2.png)
+![Captura de Tela - Home 1](screenshots/home_1.png)
+![Captura de Tela - Home 2](screenshots/home_2.png)
+![Captura de Tela - Home 3](screenshots/home_3.png)
