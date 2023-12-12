@@ -16,6 +16,7 @@ class CardViewPage extends StatefulWidget {
 
 class _CardViewPageState extends State<CardViewPage> {
   final userCardStore = UserCardStore();
+  ScrollController scrollControllerViewCard = ScrollController();
 
   TextEditingController controllerAddInput = TextEditingController();
   FocusNode focusNodeAddInput = FocusNode();
@@ -44,6 +45,7 @@ class _CardViewPageState extends State<CardViewPage> {
                 child: Observer(
                   builder: (context) {
                     return ListView.builder(
+                      controller: scrollControllerViewCard,
                       itemCount: userCardStore.userCards.length,
                       itemBuilder: (context, index) {
                         var userCard = userCardStore.userCards[index];
@@ -147,6 +149,8 @@ class _CardViewPageState extends State<CardViewPage> {
         .then((value) {
       controllerAddInput.clear();
       focusNodeAddInput.requestFocus();
+      scrollControllerViewCard
+          .jumpTo(scrollControllerViewCard.position.maxScrollExtent);
     });
   }
 }

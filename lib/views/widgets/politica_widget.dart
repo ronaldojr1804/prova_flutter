@@ -8,8 +8,11 @@ class WdPoliticaPrivacidadeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () async {
-        String url = 'www.google.com';
-        if (!await launchUrl(Uri.parse(url))) {
+        String url = 'https://www.google.com';
+        if (!await launchUrl(
+          Uri.parse(url),
+          mode: LaunchMode.externalApplication,
+        )) {
           throw Exception('Could not launch $url');
         }
       },

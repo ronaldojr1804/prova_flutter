@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginPage(),
         '/cards': (context) => const CardViewPage(),
       },
-      // home: const LoginPage(),
     );
   }
 }
